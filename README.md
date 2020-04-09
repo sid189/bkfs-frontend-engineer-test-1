@@ -7,7 +7,7 @@ This project is intended to test your:
 
 ## Business Requests
 
-Refer to the Requirements.pdf
+Refer to the [Requirements](Requirements.pdf)
 
 ## Measurement Criteria
 
