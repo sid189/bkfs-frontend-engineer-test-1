@@ -22,4 +22,4 @@ Send us an email with:
 * Which business requests you completed, which were partial and which you didn't get to
 * Link to or screen recording file where you do a demo of each of the business requests
 * Where your code lives on github (aka github repo link)
-* Public URL where your work is runing (aka to AWS)
+* Public URL where your work is running (aka to AWS)
