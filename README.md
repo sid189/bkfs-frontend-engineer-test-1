@@ -3,7 +3,7 @@
 This project is intended to test your:
 
   1. Understanding how to convert business requests into code
-  1. Ability to develop code on you local and delpoy into a public cloud environment (Either AWS, Heroku, Azure, GCP, etc).
+  1. Ability to develop code on your local and delpoy into a public cloud environment (Either AWS, Heroku, Azure, GCP, etc).
 
 ## Business Requests
 
