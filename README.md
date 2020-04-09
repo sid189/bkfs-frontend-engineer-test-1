@@ -11,7 +11,7 @@ Refer to the [Requirements](Requirements.pdf)
 
 ## Measurement Criteria
 
-  1. Did you complete the requests you said you completed? (*hint: better to leave something not done then claim its done if it isn't*)
+  1. Did you complete the requests you said you completed? (*hint: better to say something is not done then claim its done if it isn't*)
   1. Did you complete the spirit of the request and not just the minimum?
   1. Did you use best practices in building (micro-frontends), testing (selenium, cypress), deploying?
 
