@@ -1,31 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import MultiSelect from "react-multi-select-component";
 
-function App() {
+const Example: React.FC = () => {
+  const options = [
+    { label: "Appraisal", value: "appraisal" },
+    { label: "DU Codified Findings", value: "du" },
+    { label: "Disclosure", value: "disclosure" },
+    { label: "Credit Report", value: "credit" },
+    { label: "ARM", value: "rider" },
+    { label: "Pay Stub", value: "paystub" },
+    { label: "W2", value: "w2" },
+  ];
+
+  const [selected, setSelected] = useState([]);
+
+
+
   return (
     <div background-color= "#282c34">
       <header className="App-header">
 
         <nav>
           <ul>
-            <li>Extraction Page</li>
             <div class="dropdown">
               <button class="dropbtn"><li>Document Types</li>
                 <i class="fa fa-caret-down"></i>
               </button>
-              <div class="dropdown-content">
-                <a href="#">Select One Document Type</a>
-                <a href="#">Select All Document Types</a>
-                <a href="#">Select Multiple Document Types</a>
-                <a href="#">Clear Your Selection</a>
+
+              <div>
+                <MultiSelect
+                  options={options}
+                  value={selected}
+                  onChange={setSelected}
+                />
               </div>
+
+
             </div>
           </ul>
         </nav>
       </header>
     </div>
-  );
-}
 
-export default App;
+  );
+};
+
+export default Example;
