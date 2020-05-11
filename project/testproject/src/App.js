@@ -9,8 +9,8 @@ function App() {
         <h1>Welcome to Black Knight Financial Services</h1>
         <nav>
           <ul>
-            <li>Extraction</li>
-            <li>Classification</li>
+            <li><a href="~/extraction/src/App.js">Extraction</a></li>
+            <li><a href="~/classification/src/App.js">Classification</a></li>
           </ul>
         </nav>
       </header>

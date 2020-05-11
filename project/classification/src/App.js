@@ -1,72 +1,169 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import MultiSelect from "react-multi-select-component";
-import Hamoni from 'hamoni-sync';
-import ReactTable from 'react-table';
-import "react-table/react-table.css";
-
-const Example: React.FC = () => {
-  const options = [
-    { label: "Appraisal", value: "appraisal" },
-    { label: "DU Codified Findings", value: "du" },
-    { label: "Disclosure", value: "disclosure" },
-    { label: "Credit Report", value: "credit" },
-    { label: "ARM", value: "rider" },
-    { label: "Pay Stub", value: "paystub" },
-    { label: "W2", value: "w2" },
-  ];
-
-  const customerList = [
-    { label: "Black Knight", value: "bkfs" },
-    { label: "Google", value: "googl" },
-    { label: "Heavy Water", value: "hw" },
-    { label: "Yahoo", value: "yahoo" },
-    { label: "We Pay", value: "wepay" }
-  ];
-
-  const [selected, setSelected] = useState([]);
-
-  return (
-    <div background-color= "#282c34">
-      <header className="App-header">
-        <nav>
-          <ul>
-            <li>Classification Page</li>
-            <div class="dropdown">
-              <button class="dropbtn"><li>Customer Names</li>
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <div>
-                <MultiSelect
-                  options={customerList}
-                  value={selected}
-                  onChange={setSelected}
-                />
-              </div>
-            </div>
-            <div class="dropdown">
-              <button class="dropbtn"><li>Document Types</li>
-                <i class="fa fa-caret-down"></i>
-              </button>
-
-              <div>
-                <MultiSelect
-                  options={options}
-                  value={selected}
-                  onChange={setSelected}
-                />
-              </div>
-
-            </div>
-          </ul>
-        </nav>
-      </header>
-    </div>
-
-  );
-};
+import React, { Component } from 'react';
+import { CsvToHtmlTable } from "react-csv-to-table";
+import Select from 'react-select';
 
 
 
-export default Example;
+const options = [
+  { value: appraisalData, label: 'Appraisal' },
+  { value: feedbackData, label: 'DU Codified Findings' },
+  { value: disclosureData, label: 'Disclosure' },
+  { value: creditData, label: 'Credit Report' },
+  { value: '', label: 'ARM' },
+  { value: paystubData, label: 'Pay Stubs' },
+  { value: w2Data, label: 'W2' },
+];
+
+
+class App extends Component {
+    constructor(){
+    super()
+    this.state = {
+      doctype: [
+        {
+          id: 0,
+          title: 'Appraisal',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 1,
+          title: 'DU Codified Findings',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 2,
+          title: 'Disclosure',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 3,
+          title: 'Credit Report',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 4,
+          title: 'ARM',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 5,
+          title: 'Pay Stub',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 6,
+          title: 'W2',
+          selected: false,
+          key: 'doctype'
+        }
+      ],
+      customer: [
+        {
+          id: 0,
+          title: 'Black Knight',
+          selected: false,
+          key: 'customer'
+        },
+        {
+          id: 1,
+          title: 'Google',
+          selected: false,
+          key: 'customer'
+        },
+        {
+          id: 2,
+          title: 'Heavy Water',
+          selected: false,
+          key: 'customer'
+        },
+        {
+          id: 3,
+          title: 'Yahoo',
+          selected: false,
+          key: 'customer'
+        },
+        {
+          id: 4,
+          title: 'We Pay',
+          selected: false,
+          key: 'customer'
+        },
+
+      ]
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener("keydown", this.tabKeyPressed);
+    window.addEventListener("mousedown", this.mouseClicked);
+  }
+
+  handleChange(evt) {
+    this.setState({multiValue: [...evt.target.selectedOptions].map(o => o.value)});
+  }
+
+
+
+  tabKeyPressed = (e) => {
+    if (e.keyCode === 9) {
+      document.querySelector('body').classList.remove("noFocus")
+      window.removeEventListener('keydown', this.tabKeyPressed);
+      window.addEventListener('mousedown', this.mouseClicked);
+    }
+  }
+  mouseClicked = (e) => {
+    document.querySelector('body').classList.add("noFocus")
+    window.removeEventListener('mousedown', this.mouseClicked);
+    window.addEventListener('keydown', this.tabKeyPressed);
+  }
+
+  toggleItem = (id, key) => {
+    let temp = JSON.parse(JSON.stringify(this.state[key]))
+    temp[id].selected = !temp[id].selected
+    this.setState({
+      [key]: temp
+    })
+  }
+
+  onSelectChange = (e) => {
+    const values = [...e.target.selectedOptions].map(opt => opt.value);
+    this.props.onChange(values);
+  };
+
+
+  render() {
+    return (
+      <div className="App">
+
+
+        <div className="wrapper">
+          <DropdownMultiple
+            titleHelper="Document Type"
+            title="Select Document Type"
+            list={this.state.doctype}
+            toggleItem={this.toggleItem}
+          />
+
+
+          <DropdownMultiple
+            titleHelper="Customer"
+            title="Select Customer"
+            list={this.state.customer}
+            toggleItem={this.toggleItem}
+          />
+
+
+        </div>
+
+      </div>
+    );
+  }
+}
+
+export default App;

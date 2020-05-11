@@ -1,50 +1,147 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import MultiSelect from "react-multi-select-component";
+import React, { Component } from 'react';
+import { CsvToHtmlTable } from "react-csv-to-table";
+import Select from 'react-select';
 
-const Example: React.FC = () => {
-  const options = [
-    { label: "Appraisal", value: "appraisal" },
-    { label: "DU Codified Findings", value: "du" },
-    { label: "Disclosure", value: "disclosure" },
-    { label: "Credit Report", value: "credit" },
-    { label: "ARM", value: "rider" },
-    { label: "Pay Stub", value: "paystub" },
-    { label: "W2", value: "w2" },
-  ];
+import { disclosureData } from "./disclosure.js";
+import { creditData } from "./credit.js";
+import { w2Data } from "./w2.js";
+import { paystubData } from "./paystub.js";
+import { appraisalData } from "./appraisal.js";
+import { feedbackData } from "./feedback.js";
+//import { DropdownMultiple, Dropdown } from 'reactjs-dropdown-component';
 
-  const [selected, setSelected] = useState([]);
+const options = [
+  { value: appraisalData, label: 'Appraisal' },
+  { value: feedbackData, label: 'DU Codified Findings' },
+  { value: disclosureData, label: 'Disclosure' },
+  { value: creditData, label: 'Credit Report' },
+  { value: '', label: 'ARM' },
+  { value: paystubData, label: 'Pay Stubs' },
+  { value: w2Data, label: 'W2' },
+];
+
+class App extends Component {
+    constructor(){
+    super()
+    this.state = {
+      doctype: [
+        {
+          id: 0,
+          title: 'Appraisal',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 1,
+          title: 'DU Codified Findings',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 2,
+          title: 'Disclosure',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 3,
+          title: 'Credit Report',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 4,
+          title: 'ARM',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 5,
+          title: 'Pay Stub',
+          selected: false,
+          key: 'doctype'
+        },
+        {
+          id: 6,
+          title: 'W2',
+          selected: false,
+          key: 'doctype'
+        }
+      ],
+
+    }
+  }
+
+  handleChange = (doctype) => {
+    this.setState({ doctype });
+  }
+
+  componentDidMount() {
+    window.addEventListener("keydown", this.tabKeyPressed);
+    window.addEventListener("mousedown", this.mouseClicked);
+  }
+
+  tabKeyPressed = (e) => {
+    if (e.keyCode === 9) {
+      document.querySelector('body').classList.remove("noFocus")
+      window.removeEventListener('keydown', this.tabKeyPressed);
+      window.addEventListener('mousedown', this.mouseClicked);
+    }
+  }
+
+  mouseClicked = (e) => {
+    document.querySelector('body').classList.add("noFocus")
+    window.removeEventListener('mousedown', this.mouseClicked);
+    window.addEventListener('keydown', this.tabKeyPressed);
+  }
 
 
 
-  return (
-    <div background-color= "#282c34">
-      <header className="App-header">
-
-        <nav>
-          <ul>
-            <div class="dropdown">
-              <button class="dropbtn"><li>Document Types</li>
-                <i class="fa fa-caret-down"></i>
-              </button>
-
-              <div>
-                <MultiSelect
-                  options={options}
-                  value={selected}
-                  onChange={setSelected}
-                />
-              </div>
+  toggleItem = (id, key) => {
+    let temp = JSON.parse(JSON.stringify(this.state[key]))
+    temp[id].selected = !temp[id].selected
+    this.setState({
+      [key]: temp
+    })
+  }
 
 
-            </div>
-          </ul>
-        </nav>
-      </header>
-    </div>
+  render() {
+    const { selectedOption } = this.state;
+    return (
+      <React.Fragment>
+      <Select
+        isMulti
+        value={selectedOption}
+        onChange={this.handleChange}
+        options={options}
+      />
+      {this.state.doctype.map(o =>
 
-  );
-};
+            <CsvToHtmlTable
+              data={o.value}
+              csvDelimiter=","
+              tableClassName="table table-striped table-hover"
+            />)}
+      </React.Fragment>
+      /*<div className="App">
 
-export default Example;
+
+        <div className="wrapper">
+          <DropdownMultiple
+            titleHelper="Document Type"
+            title="Select Document Type"
+            list={this.state.doctype}
+            toggleItem={this.toggleItem}
+          />
+
+
+
+        </div>
+
+      </div> */
+    );
+  }
+}
+
+export default App;
