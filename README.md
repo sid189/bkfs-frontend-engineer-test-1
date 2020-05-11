@@ -1,3 +1,15 @@
+## Heroku Link to the Home Page
+
+https://main-app1.herokuapp.com/
+
+## Heroku Link to the Classification Page
+
+https://classify-app1.herokuapp.com/
+
+## Heroku Link to the Extraction Page
+
+https://extract-app1.herokuapp.com/
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
